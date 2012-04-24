@@ -1,0 +1,28 @@
+[
+    {
+        "AlarmName": "Memory",
+        "ComparisonOperator": "GreaterThanThreshold",
+        "EvaluationPeriods": 10,
+        "MetricName": "MemoryPercentUsed",
+        "Namespace": "System/Linux",
+        "Period": 60,
+        "Statistic": "Average",
+        "Unit": "Percent",
+        "Threshold": "60",
+        "AlarmActions": [ "arn:aws:sns:us-east-1:234858372212:mapbox-testing"],
+        "InsufficientDataActions": [ "arn:aws:sns:us-east-1:234858372212:mapbox-testing" ]
+    },
+    {
+        "AlarmName": "CPU",
+        "ComparisonOperator": "GreaterThanThreshold",
+        "EvaluationPeriods": 10,
+        "MetricName": "CPUUtilization",
+        "Namespace": "System/Linux",
+        "Period": 60,
+        "Statistic": "Average",
+        "Unit": "Percent",
+        "Threshold": "50",
+        "AlarmActions": [ "arn:aws:sns:us-east-1:234858372212:mapbox-testing"],
+        "InsufficientDataActions": [ "arn:aws:sns:us-east-1:234858372212:mapbox-testing" ]
+    }
+]
