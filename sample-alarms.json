@@ -9,8 +9,8 @@
         "Statistic": "Average",
         "Unit": "Percent",
         "Threshold": "60",
-        "AlarmActions": [ "arn:aws:sns:us-east-1:234858372212:mapbox-testing"],
-        "InsufficientDataActions": [ "arn:aws:sns:us-east-1:234858372212:mapbox-testing" ]
+        "AlarmActions": [ "REPLACE_WITH_YOUR_SNS_ARN"],
+        "InsufficientDataActions": [ "REPLACE_WITH_YOUR_SNS_ARN" ]
     },
     {
         "AlarmName": "CPU",
@@ -22,7 +22,7 @@
         "Statistic": "Average",
         "Unit": "Percent",
         "Threshold": "50",
-        "AlarmActions": [ "arn:aws:sns:us-east-1:234858372212:mapbox-testing"],
-        "InsufficientDataActions": [ "arn:aws:sns:us-east-1:234858372212:mapbox-testing" ]
+        "AlarmActions": [ "REPLACE_WITH_YOUR_SNS_ARN"],
+        "InsufficientDataActions": [ "REPLACE_WITH_YOUR_SNS_ARN" ]
     }
 ]
