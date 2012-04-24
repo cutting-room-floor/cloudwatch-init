@@ -31,8 +31,14 @@ _.each(argv, function(v, k) {
 
 if (!options.awskey ||
     !options.awssecret ||
-    !options.alarms ) {
+    !options.alarms ||
+    !options.op ) {
     console.log("Must provide all of awskey, awssecret, and alarms as --config parameters")
+    process.exit(1);
+}
+
+if (!options.op.match(/^(add|remove)$/)) {
+    console.log('Provided bad operation: %s. Must be one of add/remove', options.op);
     process.exit(1);
 }
 
@@ -72,21 +78,31 @@ async.waterfall([
     // Format and put alarms.
     // See http://docs.amazonwebservices.com/AmazonCloudWatch/latest/APIReference/API_PutMetricAlarm.html
     function(instanceid, name, cb) {
-        _.each(alarms, function(alarm) {
-            _.each(alarm.AlarmActions, function(v, i) {
-                alarm['AlarmActions.member.' + (i + 1)] = v;
+        if (options.op == 'add') {
+            _.each(alarms, function(alarm) {
+                _.each(alarm.AlarmActions, function(v, i) {
+                    alarm['AlarmActions.member.' + (i + 1)] = v;
+                });
+                _.each(alarm.InsufficientDataActions, function(v, i) {
+                    alarm['InsufficientDataActions.member.' + (i + 1)] = v;
+                });
+                alarm.AlarmName = alarm.AlarmName + ' ' + name;
+                alarm['Dimensions.member.1.Name'] = 'InstanceId';
+                alarm['Dimensions.member.1.Value'] = instanceid;
+                delete alarm.AlarmActions;
+                delete alarm.InsufficientDataActions;
+                cw.call('PutMetricAlarm', alarm, function(err, res) {
+                    //
+                });
             });
-            _.each(alarm.InsufficientDataActions, function(v, i) {
-                alarm['InsufficientDataActions.member.' + (i + 1)] = v;
+        } else if (options.op == 'remove') {
+            var payload = {};
+            _.each(alarms, function(alarm, i) {
+                payload['AlarmNames.member.' + (i + 1)] = alarm.AlarmName + ' ' + name;
             });
-            alarm.AlarmName = alarm.AlarmName + ' ' + name;
-            alarm['Dimensions.member.1.Name'] = 'InstanceId';
-            alarm['Dimensions.member.1.Value'] = instanceid;
-            delete alarm.AlarmActions;
-            delete alarm.InsufficientDataActions;
-            cw.call('PutMetricAlarm', alarm, function(err, res) {
+            cw.call('DeleteAlarms', payload, function(err, res) {
                 //
             });
-        });
+        }
     }
 ]);
