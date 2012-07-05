@@ -34,8 +34,9 @@ _.each(argv, function(v, k) {
 if (!options.awskey ||
     !options.awssecret ||
     !options.alarms ||
+    !options.region ||
     !options.op ) {
-    console.log("Must provide all of awskey, awssecret, and alarms as --config parameters")
+    console.log("Must provide all of awskey, awssecret, region, op, and alarms as --config parameters")
     process.exit(1);
 }
 
@@ -53,8 +54,10 @@ if (argv.alarms) {
     }
 }
 
-ec2 = aws.createEC2Client(options.awskey, options.awssecret, {version: '2012-04-01'});
-cw = aws.createCWClient(options.awskey, options.awssecret);
+ec2 = aws.createEC2Client(options.awskey, options.awssecret, 
+    {version: '2012-04-01', host: 'ec2.' + options.region + '.amazonaws.com'});
+cw = aws.createCWClient(options.awskey, options.awssecret,
+    {host: 'monitoring.' + options.region + '.amazonaws.com'});
 
 async.waterfall([
     // Get instanceid of this machine
