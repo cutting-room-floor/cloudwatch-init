@@ -1,7 +1,7 @@
 {
   "name": "cloudwatch-init",
   "description": "Create Amazon CloudWatch alarms from the command line",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
       "type": "git",
       "url": "git://github.com/mapbox/cloudwatch-init.git"
