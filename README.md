@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/mapbox/cloudwatch-init.png)](http://travis-ci.org/mapbox/cloudwatch-init)
 Node.js script which takes a json array of CloudWatch alarm definitions and creates CloudWatch alarms.
 
 Setup: Fill out sample-alarms.json with the alarms you want to create. Replace values where your SNS ARN is required.
